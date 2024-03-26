@@ -6,7 +6,7 @@ async function UpdateTaskMiddleware(req, res, next) {
     const { titulo, descricao, prioridade, status } = req.body;
 
     try {
-        let task = await Task.findById(id);
+        let task = await Task.findById({_id: id});
         if (!task) {
             return res.status(404).json({ error: 'Task não encontrada' });
         }
