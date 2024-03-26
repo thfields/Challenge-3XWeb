@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
+    
     titulo: {
         type: String,
         required: true
