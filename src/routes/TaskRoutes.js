@@ -5,12 +5,12 @@ const routes = Router();
 
 routes.get('/tasks', getTask);
 
-routes.get('/tasks/:id', getTaskByID);
+routes.get('/tasks/:taskId', getTaskByID);
 
 routes.post('/tasks', createTask);
 
-routes.put('/tasks/:id', updateTask);
+routes.put('/tasks/:taskId', updateTask);
 
-routes.delete('/tasks/:id', deleteTask);
+routes.delete('/tasks/:taskId', deleteTask);
 
 export default routes;

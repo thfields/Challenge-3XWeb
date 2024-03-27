@@ -1,12 +1,11 @@
-// updateTaskMiddleware.js
 import Task from '../models/TaskModel.js';
 
 async function UpdateTaskMiddleware(req, res, next) {
-    const id = req.params.id;
+    const taskId = req.params.taskId;
     const { titulo, descricao, prioridade, status } = req.body;
 
     try {
-        let task = await Task.findById({_id: id});
+        let task = await Task.findOne({taskId: taskId});
         if (!task) {
             return res.status(404).json({ error: 'Task não encontrada' });
         }
@@ -26,11 +25,7 @@ async function UpdateTaskMiddleware(req, res, next) {
                 task.finalData = new Date();
             }
         }
-
-        // Salvar a tarefa
         await task.save();
-
-        // Anexar a tarefa ao objeto req
         req.task = task;
         next();
     } catch (error) {
