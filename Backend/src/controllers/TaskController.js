@@ -26,6 +26,10 @@ async function createTask(req, res) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 
+    if(task.prioridade !== 'baixa' && task.prioridade !== 'média' && task.prioridade !== 'alta') {
+        return res.status(400).json({ error: 'Prioridade indefinida! Utilize apenas "baixa", "média" ou "alta' });
+    }
+
     if(task.status !== 'aberto' && task.status !== 'em andamento') {
         return res.status(400).json({ error: 'Status indefinido! Utilize apenas "aberto" ou "em andamento"' });
     }
