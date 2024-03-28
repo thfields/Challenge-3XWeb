@@ -1,35 +1,21 @@
-import Task from '../models/TaskModel.js';
-
-async function UpdateTaskMiddleware(req, res, next) {
-    const taskId = req.params.taskId;
+function UpdateTaskMiddleware(req, res, next) {
     const { titulo, descricao, prioridade, status } = req.body;
+    const validPriorities = ['baixa', 'média', 'alta'];
+    const validStatuses = ['aberto', 'em andamento', 'finalizado'];
 
     try {
-        let task = await Task.findOne({taskId: taskId});
-        if (!task) {
-            return res.status(404).json({ error: 'Task não encontrada' });
+        if (titulo === undefined && descricao === undefined && prioridade === undefined && status === undefined) {
+            return res.status(400).json({ error: 'Pelo menos um campo deve ser fornecido para atualização' });
         }
-        if (titulo) {
-            task.titulo = titulo;
+        if (prioridade && !validPriorities.includes(prioridade)) {
+            return res.status(400).json({ error: 'Prioridade inválida: utilize "baixa", "média" ou "alta"' });
         }
-        if (descricao) {
-            task.descricao = descricao;
+        if (status && !validStatuses.includes(status)) {
+            return res.status(400).json({ error: 'Status inválido: utilize "aberto", "em andamento" ou "finalizado"' });
         }
-        if (prioridade) {
-            task.prioridade = prioridade;
-        }
-        if (status) {
-            task.status = status;
-
-            if (status === 'finalizado') {
-                task.finalData = new Date();
-            }
-        }
-        await task.save();
-        req.task = task;
         next();
     } catch (error) {
-        return res.status(500).json({ error: 'Erro ao atualizar a task' });
+        return res.status(500).json({ error: 'Erro ao validar os dados para atualização' });
     }
 }
 

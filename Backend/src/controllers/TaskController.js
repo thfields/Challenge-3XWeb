@@ -1,73 +1,54 @@
-import Task from '../models/TaskModel.js';
-import UpdateTaskMiddleware from '../Middlewares/UpdateTaskMiddleware.js';
+import TaskService from '../services/TaskService.js';
 
 async function getTask(_, res) {
-    const tasks = await Task.find();
+    const tasks = await TaskService.find();
     return res.status(200).json(tasks);
 }
 
 async function getTaskByID(req, res) {
     const taskId = req.params.taskId;
+
     try {
-        const task = await Task.findOne({taskId: taskId});
-        if (!task) {
-            return res.status(404).json({ error: 'Task não encontrada' });
-        }
+        const task = await TaskService.findOne(taskId);
         return res.status(200).json(task);
     } catch (error) {
+        if (error.message === 'Task não encontrada') {
+            return res.status(404).json({ error: error.message });
+        }
         return res.status(500).json({ error: 'Erro ao buscar a task' });
     }
 }
 
 async function createTask(req, res) {
-    const task = req.body;
+    const { titulo, descricao, prioridade, status } = req.body;
 
-    if (!task.titulo || !task.descricao || !task.prioridade || !task.status) {
-        return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+    try {
+        const task = await TaskService.create({ titulo, descricao, prioridade, status });
+        return res.status(201).json(task);
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro interno no controller.', details: error });
     }
-
-    if(task.prioridade !== 'baixa' && task.prioridade !== 'média' && task.prioridade !== 'alta') {
-        return res.status(400).json({ error: 'Prioridade indefinida! Utilize apenas "baixa", "média" ou "alta' });
-    }
-
-    if(task.status !== 'aberto' && task.status !== 'em andamento') {
-        return res.status(400).json({ error: 'Status indefinido! Utilize apenas "aberto" ou "em andamento"' });
-    }
-
-    const novaTask = await Task.create(task);
-    return res.status(201).json(novaTask);
 }
 
 async function updateTask(req, res) {
-    UpdateTaskMiddleware(req, res, async function(err) {
-        if (err) {
-            return res.status(500).json({ error: 'Erro interno na atualização.', details: err });
-        }
-        
-        try {
-            const task = req.task;
-            res.status(200).json(task);
-        } catch (error) {
-            res.status(500).json({ error: 'Erro interno no controller.', details: error });
-        }
-    });
+    const taskId = req.params.taskId;
+    const task = req.body; // Use req.body instead of req.task
+
+    try {
+        const updatedTask = await TaskService.update(taskId, task);
+        return res.status(200).json(updatedTask);
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro ao atualizar a task' });
+    }
 }
 
 async function deleteTask(req, res) {
     const taskId = req.params.taskId;
     try {
-        const task = await Task.findOne({taskId: taskId});
-        if (!task) {
-            return res.status(404).json({ error: 'Tarefa não encontrada' });
-        }       
-        if (task.status === 'finalizado') {
-            await task.deleteOne({taskId: taskId});
-            return res.status(200).json({ message: 'Tarefa deletada com sucesso!' });
-        } else {
-            return res.status(403).json({ error: 'A tarefa não pode ser deletada pois não está finalizada' });
-        }
+        const task = await TaskService.delete(taskId);
+        return res.status(200).json({ message: 'Task deletada com sucesso!'});
     } catch (error) {
-        return res.status(500).json({ error: 'Erro ao deletar a tarefa' });
+        return res.status(400).json({ message: error.message });
     }
 }
 
