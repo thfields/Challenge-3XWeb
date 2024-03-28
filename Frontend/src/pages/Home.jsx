@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo-home.jpg';
 
 const Home = () => {
     return (
         <div className="home-container">
             <div className="logo-container">
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <img src={logo} alt="Logo" style={{width: 520, height: 280}}/>
+                <img src={logo} alt="Logo" style={{width: 720, height: 420}}/>
             </div>
-                <h1>Lista de Tarefas</h1>
             </div>
             <div className="cta-container">
                 <h2>Bem-vindo à nossa TaskList!</h2>

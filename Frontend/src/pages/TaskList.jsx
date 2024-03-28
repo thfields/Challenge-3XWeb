@@ -76,7 +76,7 @@ function ListTask() {
     return (
         <>
             <Title level={2}>Tarefas</Title>
-            <Space style={{ marginBottom: 10 }} direction="vertical">
+            <Space style={{ marginBottom: 10}} direction="vertical">
                 <Button type="primary" onClick={() => { setAbrirModal(true); setTaskToEdit(null); }}>Nova Tarefa</Button>
                 <Table dataSource={tasks} columns={columns} />
             </Space>

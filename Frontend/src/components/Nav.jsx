@@ -1,6 +1,6 @@
 import { Layout, Menu, Flex } from "antd";
 import { Link, Outlet } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/tasks.png";
 
 const { Sider, Content } = Layout;
 

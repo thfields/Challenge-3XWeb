@@ -4,6 +4,7 @@ import { Descriptions, Typography } from 'antd';
 import TaskService from '../services/TaskService';
 import NotFound from '../components/NotFound';
 
+
 const { Title } = Typography;
 
 function TaskDetails() {
@@ -40,17 +41,18 @@ function TaskDetails() {
     }
 
     return (
-        <div>
-            <Title level={2}>Detalhes da Tarefa</Title>
-            <Descriptions bordered column={1}>
-                <Descriptions.Item label="ID da Tarefa">{task.taskId}</Descriptions.Item>
-                <Descriptions.Item label="Título">{task.titulo}</Descriptions.Item>
-                <Descriptions.Item label="Descrição">{task.descricao}</Descriptions.Item>
-                <Descriptions.Item label="Prioridade">{task.prioridade}</Descriptions.Item>
-                <Descriptions.Item label="Status">{task.status}</Descriptions.Item>
-                <Descriptions.Item label="Data de Criação">{task.createData}</Descriptions.Item>
-                <Descriptions.Item label="Data de Finalização">{task.finalData}</Descriptions.Item>
+        <div className="task-details-container">
+            <Title className="task-details-title" level={2} style={{ color: '#fff' }}>Detalhes da Tarefa</Title>
+            <Descriptions bordered column={1} >
+                <Descriptions.Item label="ID da Tarefa" style={{ color: '#fff' }}>{task.taskId}</Descriptions.Item>
+                <Descriptions.Item label="Título" style={{ color: '#fff' }}>{task.titulo}</Descriptions.Item>
+                <Descriptions.Item label="Descrição" style={{ color: '#fff' }}>{task.descricao}</Descriptions.Item>
+                <Descriptions.Item label="Prioridade" style={{ color: '#fff' }}>{task.prioridade}</Descriptions.Item>
+                <Descriptions.Item label="Status" style={{ color: '#fff' }}>{task.status}</Descriptions.Item>
+                <Descriptions.Item label="Data de Criação" style={{ color: '#fff' }}>{task.createData}</Descriptions.Item>
+                <Descriptions.Item label="Data de Finalização" style={{ color: '#fff' }}>{task.finalData}</Descriptions.Item>
             </Descriptions>
+            
         </div>
     );
 }
