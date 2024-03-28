@@ -5,7 +5,7 @@ Onde utilizei o NodeJS para o Backend, ReactJS para o Frontend e o MongoDB para 
 
 ## Backend - Instruções de Configuração e Execução:
 
-1. Certifique-se de ter o Node.js instalado em sua máquina.
+1. Certifique-se de ter o Node.js e o MongoDB instalado em sua máquina.
   Para verificar utilize o comando:
 ```
 node -v
