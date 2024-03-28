@@ -60,8 +60,8 @@ function ListTask() {
         { title: "Descrição", dataIndex: "descricao", key: "descricao" },
         { title: "Prioridade", dataIndex: "prioridade", key: "prioridade" },
         { title: "Status", dataIndex: "status", key: "status" },
-        { title: "Data de Criação", dataIndex: "createData", key: "createData" },
-        { title: "Data de Finalização", dataIndex: "finalData", key: "finalData" },
+        { title: "Data de Criação", dataIndex: "createData", key: "createData", render: (createData) => new Date(createData).toLocaleDateString('pt-BR') },
+        { title: "Data de Finalização", dataIndex: "finalData", key: "finalData", render: (finalData) => finalData ? new Date(finalData).toLocaleDateString('pt-BR') : '-' },
         {
             title: "Ações", dataIndex: "taskId", key: "actions", render: (text, record) => (
                 <Space size="middle">
