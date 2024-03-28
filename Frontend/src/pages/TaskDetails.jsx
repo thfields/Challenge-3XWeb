@@ -9,7 +9,8 @@ const { Title } = Typography;
 function TaskDetails() {
     const { id } = useParams();
     const [task, setTask] = useState(null);
-    const isValidId = /^\d+$/.test(id); // Verifica se o id é um número válido
+    const [loading, setLoading] = useState(true);
+    const isValidId = /^\d+$/.test(id); 
 
     useEffect(() => {
         async function fetchTask() {
@@ -22,12 +23,17 @@ function TaskDetails() {
                 setTask(fetchedTask);
             } catch (error) {
                 console.error('Erro ao buscar detalhes da tarefa:', error);
-                setTask(null); // Limpa a tarefa para renderizar o componente NotFound
+            } finally {
+                setLoading(false); // Marca a requisição como concluída, independentemente de ter sucesso ou falha
             }
         }
 
         fetchTask();
     }, [id, isValidId]);
+
+    if (loading) {
+        return null; // Ou um spinner de carregamento, se preferir
+    }
 
     if (!task) {
         return <NotFound />;

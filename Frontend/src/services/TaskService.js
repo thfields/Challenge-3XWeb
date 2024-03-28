@@ -8,9 +8,9 @@ const TaskService = {
             if (!resposta.ok) {
                 const errorData = await resposta.json();
                 if (errorData.message) {
-                    throw new Error(errorData.message); // Se houver uma mensagem simples, lança um erro com essa mensagem
+                    throw new Error(errorData.message); 
                 } else {
-                    throw errorData; // Se não houver uma mensagem simples, lança o objeto de erro recebido do backend
+                    throw errorData; 
                 }
             }
             return await resposta.json();
