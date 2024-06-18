@@ -1,7 +1,7 @@
 import app from "./src/app.js";
 import dbConnect from './src/config/db.js';
 
-const PORT = 'https://tasklist-nodejs.onrender.com/';
+const PORT = process.env.PORT || 3000;
 
 dbConnect()
     .then(() => console.log("Conectado ao MongoDB!"))
