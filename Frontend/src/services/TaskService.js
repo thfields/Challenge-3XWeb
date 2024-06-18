@@ -1,102 +1,65 @@
-/* eslint-disable no-useless-catch */
-const BASE_URL_TASKS = 'https://tasklist-nodejs.onrender.com/';
+import axios from 'axios';
+
+const BASE_URL_TASKS = 'https://tasklist-back-9ipj8a3p7-thiago-campos-projects.vercel.app/tasks';
 
 const TaskService = {
     listar: async () => {
         try {
-            const resposta = await fetch(BASE_URL_TASKS);
-            if (!resposta.ok) {
-                const errorData = await resposta.json();
-                if (errorData.message) {
-                    throw new Error(errorData.message); 
-                } else {
-                    throw errorData; 
-                }
-            }
-            return await resposta.json();
-        } catch (erro) {
-            throw erro; // Relança o erro capturado
+            const resposta = await axios.get(BASE_URL_TASKS);
+            return resposta.data;
+        } catch (error) {
+            handleErrorResponse(error);
         }
     },
 
     buscarPorId: async (taskid) => {
         try {
-            const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`);
-            if (!resposta.ok) {
-                const errorData = await resposta.json();
-                if (errorData.message) {
-                    throw new Error(errorData.message); // Se houver uma mensagem simples, lança um erro com essa mensagem
-                } else {
-                    throw errorData; // Se não houver uma mensagem simples, lança o objeto de erro recebido do backend
-                }
-            }
-            return await resposta.json();
-        } catch (erro) {
-            throw erro; // Relança o erro capturado
+            const resposta = await axios.get(`${BASE_URL_TASKS}/${taskid}`);
+            return resposta.data;
+        } catch (error) {
+            handleErrorResponse(error);
         }
     },
 
     criar: async (task) => {
         try {
-            const resposta = await fetch(BASE_URL_TASKS, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(task)
-            });
-            if (!resposta.ok) {
-                const errorData = await resposta.json();
-                if (errorData.message) {
-                    throw new Error(errorData.message); // Se houver uma mensagem simples, lança um erro com essa mensagem
-                } else {
-                    throw errorData; // Se não houver uma mensagem simples, lança o objeto de erro recebido do backend
-                }
-            }
-            return await resposta.json();
-        } catch (erro) {
-            throw erro; // Relança o erro capturado
+            const resposta = await axios.post(BASE_URL_TASKS, task);
+            return resposta.data;
+        } catch (error) {
+            handleErrorResponse(error);
         }
     },
 
     atualizar: async (taskid, task) => {
         try {
-            const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(task)
-            });
-            if (!resposta.ok) {
-                const errorData = await resposta.json();
-                if (errorData.message) {
-                    throw new Error(errorData.message); // Se houver uma mensagem simples, lança um erro com essa mensagem
-                } else {
-                    throw errorData; // Se não houver uma mensagem simples, lança o objeto de erro recebido do backend
-                }
-            }
-            return await resposta.json();
-        } catch (erro) {
-            throw erro; // Relança o erro capturado
+            const resposta = await axios.put(`${BASE_URL_TASKS}/${taskid}`, task);
+            return resposta.data;
+        } catch (error) {
+            handleErrorResponse(error);
         }
     },
 
     excluir: async (taskid) => {
         try {
-            const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`, {
-                method: 'DELETE'
-            });
-            const responseData = await resposta.json();
-            if (!resposta.ok) {
-                throw new Error(responseData.message); // Lança um erro com a mensagem de erro retornada pelo servidor
-            }
-            return responseData.message; // Retorna a mensagem de sucesso do servidor
-        } catch (erro) {
-            throw erro;
+            const resposta = await axios.delete(`${BASE_URL_TASKS}/${taskid}`);
+            return resposta.data.message;
+        } catch (error) {
+            handleErrorResponse(error);
         }
     }
-    
 };
+
+function handleErrorResponse(error) {
+    if (error.response) {
+        // O servidor retornou um código de status fora do intervalo 2xx
+        throw new Error(error.response.data.message || error.response.statusText);
+    } else if (error.request) {
+        // A requisição foi feita, mas não houve resposta
+        throw new Error('Não foi possível receber resposta do servidor.');
+    } else {
+        // Ocorreu um erro ao configurar a requisição
+        throw new Error('Erro ao enviar requisição.');
+    }
+}
 
 export default TaskService;
