@@ -8,5 +8,5 @@ dbConnect()
     .catch((err) => console.log(err));
 
 app.listen(PORT, () => {
-  console.log(`Servidor online em https://tasklist-nodejs.onrender.com/`);
+  console.log(`Servidor online em ${PORT}`);
 });
