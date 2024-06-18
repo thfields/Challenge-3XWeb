@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-const BASE_URL_TASKS = 'http://localhost:3000/tasks';
+const BASE_URL_TASKS = 'https://tasklist-nodejs.onrender.com/';
 
 const TaskService = {
     listar: async () => {
