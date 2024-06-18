@@ -1,11 +1,11 @@
-# Desafio - 3X Web Digital Development
+# Desafio - Tasklist
 
 Este um projeto de uma aplicação de gerenciamento de tarefas. Ele oferece uma API RESTful para criar, visualizar, atualizar e excluir tarefas.
 Onde utilizei o NodeJS para o Backend, ReactJS para o Frontend e o MongoDB para o Banco de Dados.
 
 ## Backend - Instruções de Configuração e Execução:
 
-1. Certifique-se de ter o Node.js instalado em sua máquina.
+1. Certifique-se de ter o Node.js e o MongoDB instalado em sua máquina.
   Para verificar utilize o comando:
 ```
 node -v
