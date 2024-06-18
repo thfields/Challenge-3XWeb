@@ -1,65 +1,95 @@
-import axios from 'axios';
-
-const BASE_URL_TASKS = '/api/tasks';
+const BASE_URL_TASKS = 'https://tasklist-back.vercel.app/tasks';
 
 const TaskService = {
     listar: async () => {
-        try {
-            const resposta = await axios.get(BASE_URL_TASKS);
-            return resposta.data;
-        } catch (error) {
-            handleErrorResponse(error);
+        const resposta = await fetch(BASE_URL_TASKS, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors', // Mantém o modo CORS
+        });
+        if (!resposta.ok) {
+            const errorData = await resposta.json();
+            if (errorData.message) {
+                throw new Error(errorData.message); 
+            } else {
+                throw errorData; 
+            }
         }
+        return await resposta.json();
     },
 
     buscarPorId: async (taskid) => {
-        try {
-            const resposta = await axios.get(`${BASE_URL_TASKS}/${taskid}`);
-            return resposta.data;
-        } catch (error) {
-            handleErrorResponse(error);
+        const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors', // Mantém o modo CORS
+        });
+        if (!resposta.ok) {
+            const errorData = await resposta.json();
+            if (errorData.message) {
+                throw new Error(errorData.message); 
+            } else {
+                throw errorData; 
+            }
         }
+        return await resposta.json();
     },
 
     criar: async (task) => {
-        try {
-            const resposta = await axios.post(BASE_URL_TASKS, task);
-            return resposta.data;
-        } catch (error) {
-            handleErrorResponse(error);
+        const resposta = await fetch(BASE_URL_TASKS, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task),
+            mode: 'cors', // Mantém o modo CORS
+        });
+        if (!resposta.ok) {
+            const errorData = await resposta.json();
+            if (errorData.message) {
+                throw new Error(errorData.message); 
+            } else {
+                throw errorData; 
+            }
         }
+        return await resposta.json();
     },
 
     atualizar: async (taskid, task) => {
-        try {
-            const resposta = await axios.put(`${BASE_URL_TASKS}/${taskid}`, task);
-            return resposta.data;
-        } catch (error) {
-            handleErrorResponse(error);
+        const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task),
+            mode: 'cors', // Mantém o modo CORS
+        });
+        if (!resposta.ok) {
+            const errorData = await resposta.json();
+            if (errorData.message) {
+                throw new Error(errorData.message); 
+            } else {
+                throw errorData; 
+            }
         }
+        return await resposta.json();
     },
 
     excluir: async (taskid) => {
-        try {
-            const resposta = await axios.delete(`${BASE_URL_TASKS}/${taskid}`);
-            return resposta.data.message;
-        } catch (error) {
-            handleErrorResponse(error);
+        const resposta = await fetch(`${BASE_URL_TASKS}/${taskid}`, {
+            method: 'DELETE',
+            mode: 'cors', // Mantém o modo CORS
+        });
+        const responseData = await resposta.json();
+        if (!resposta.ok) {
+            throw new Error(responseData.message); 
         }
+        return responseData.message; 
     }
 };
-
-function handleErrorResponse(error) {
-    if (error.response) {
-        // O servidor retornou um código de status fora do intervalo 2xx
-        throw new Error(error.response.data.message || error.response.statusText);
-    } else if (error.request) {
-        // A requisição foi feita, mas não houve resposta
-        throw new Error('Não foi possível receber resposta do servidor.');
-    } else {
-        // Ocorreu um erro ao configurar a requisição
-        throw new Error('Erro ao enviar requisição.');
-    }
-}
 
 export default TaskService;
