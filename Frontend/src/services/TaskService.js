@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL_TASKS = 'https://tasklist-back-9ipj8a3p7-thiago-campos-projects.vercel.app/tasks';
+const BASE_URL_TASKS = '/api/tasks';
 
 const TaskService = {
     listar: async () => {
